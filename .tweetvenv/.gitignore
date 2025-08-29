@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+*.egg-info/
+
+# Django
+db.sqlite3
+/staticfiles/
+/media/
+
+# VSCode / PyCharm
+.vscode/
+.idea/
