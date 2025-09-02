@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        
+        /* For larger screens, add more margin */
+        @media (min-width: 992px) {
+            body {
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+        }
+        
+        /* For extra large screens, add even more margin */
+        @media (min-width: 1200px) {
+            body {
+                padding-left: 60px;
+                padding-right: 60px;
+            }
+        }
+        
+        /* Optional: Add some top margin to the content */
+        .content-wrapper {
+            margin-top: 20px;
+        }
+        
+        /* Auth buttons spacing */
+        .auth-buttons {
+            margin-right: 15px;
+        }
+        
+        /* User welcome text styling */
+        .user-welcome {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            color: #6c757d;
+        }
+        
+        .user-welcome i {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+    </style>
+    <title>UTweet App</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'tweet_list' %}">UTweet</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'tweet_list' %}">Home</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'create_tweet' %}">Create Tweet</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Options
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <div class="d-flex align-items-center">
+                    <!-- Show username and icon when user is authenticated -->
+                    {% if user.is_authenticated %}
+                    <div class="user-welcome">
+                        <i class="bi bi-person-circle"></i>
+                        <span>Welcome, {{ user.username }}</span>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Authentication buttons on the left side of search -->
+                    <div class="auth-buttons">
+                        {% if user.is_authenticated %}
+                        <!-- Logout form - Using POST method -->
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{% url 'tweet_list' %}">
+                            <button class="btn btn-danger" type="submit">Logout</button>
+                        </form>
+                        {% else %}
+                        <!-- Login and Register buttons -->
+                        <a href="{% url 'login' %}?next={% url 'tweet_list' %}" class="btn btn-outline-primary">Login</a>
+                        <a href="{% url 'register' %}" class="btn btn-primary">Register</a>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Search form on the right side -->
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content-wrapper">
+        {% block content %}
+        {% endblock %}
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+</body>
+</html>

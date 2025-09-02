@@ -21,3 +21,18 @@ Thumbs.db
 
    
 
+# Ignore Python venv
+.venv/
+venv/
+.tweetvenv/
+
+# Ignore SQLite database
+db.sqlite3
+
+# Ignore other Python junk
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+# Ignore SQLite database
+*.sqlite3

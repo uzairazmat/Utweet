@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h1 class="text-center mt-3">Hey Welcome to <strong>Utweet</strong></h1>
+
+<a href="{% url 'create_tweet' %}" class="btn btn-primary mb-4 mt-2">Create Tweet</a>
+
+<div class="container">
+    <div class="row">
+        {% for tweet in tweets %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                {% if tweet.photo %}
+                <div class="image-container" style="height: 200px; overflow: hidden;">
+                    <img src="{{ tweet.photo.url }}" class="card-img-top h-100 w-100 object-fit-cover" alt="Tweet image">
+                </div>
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ tweet.user.username }}</h5>
+                    <p class="card-text flex-grow-1">{{ tweet.text|slice:":100" }}{% if tweet.text|length > 100 %}...{% endif %}</p>
+                   
+                    <!-- Show view option for other users' tweets -->
+                    <div class="mt-auto">
+                        <a href={% url "view_tweet" tweet.id %} class="btn btn-outline-secondary btn-sm w-100">View Tweet</a>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .object-fit-cover {
+        object-fit: cover;
+    }
+    .card {
+        transition: transform 0.2s;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    .image-container {
+        background-color: #f8f9fa;
+    }
+</style>
+
+{% endblock %}

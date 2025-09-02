@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h1 class="text-center mt-3 ">Hey Welcome to home page</h1>
+
+<h2><form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button clas="btn btn-danger"> delete</button>
+    <a href={% url "tweet_list" %}>cancel</a>
+</form></h2>
+{% endblock %}
